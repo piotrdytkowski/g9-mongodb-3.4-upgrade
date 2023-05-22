@@ -1,6 +1,7 @@
 # Dependency tree from spring-boot-starter-data-mongodb
 Run it using `mvn dependency:tree` command.
 
+```
 [INFO] \- org.springframework.boot:spring-boot-starter-data-mongodb:jar:1.5.22.RELEASE:compile
 [INFO]    +- org.mongodb:mongodb-driver:jar:3.4.3:compile
 [INFO]    |  +- org.mongodb:mongodb-driver-core:jar:3.4.3:compile
@@ -10,6 +11,7 @@ Run it using `mvn dependency:tree` command.
 [INFO]       +- org.springframework:spring-beans:jar:4.3.25.RELEASE:compile
 [INFO]       +- org.springframework:spring-expression:jar:4.3.25.RELEASE:compile
 [INFO]       \- org.springframework.data:spring-data-commons:jar:1.13.23.RELEASE:compile
+```
 
 Shows mongodb-driver:jar:3.4.3 driver is in use.
 
@@ -45,6 +47,7 @@ So updating the release train is not an option:
 https://stackoverflow.com/questions/26141346/how-can-i-specify-the-spring-data-mongodb-version-using-spring-boot
 
 Updating the bom in dependency management works as follows:
+```
 [INFO] \- org.springframework.boot:spring-boot-starter-data-mongodb:jar:1.5.22.RELEASE:compile
 [INFO]    +- org.mongodb:mongodb-driver:jar:3.4.3:compile
 [INFO]    |  +- org.mongodb:mongodb-driver-core:jar:3.4.3:compile
@@ -54,8 +57,9 @@ Updating the bom in dependency management works as follows:
 [INFO]       +- org.springframework:spring-beans:jar:4.3.25.RELEASE:compile
 [INFO]       +- org.springframework:spring-expression:jar:4.3.25.RELEASE:compile
 [INFO]       \- org.springframework.data:spring-data-commons:jar:3.1.0:compile
+```
 
-Somehow it works despite the requirements, but it doesn't update the mongodb driver anyway.
+It compiles despite the requirements, but it doesn't update the mongodb driver anyway.
 
 ## Setting the property `<spring-data-bom.version>2023.0.0</spring-data-bom.version>`
 makes no change in dependencies.
