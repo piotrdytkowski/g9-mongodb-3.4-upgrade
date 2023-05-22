@@ -22,7 +22,7 @@ public class DemoApplicationTests extends MongoIntegrationTest {
 		String id = UUID.randomUUID().toString();
 		String name = UUID.randomUUID().toString();
 		demoRepository.insert(new Demo(id, name));
-		Demo demo = demoRepository.findOne(id);
+		Demo demo = demoRepository.findById(id).get();
 		assertEquals(name, demo.getName());
 	}
 

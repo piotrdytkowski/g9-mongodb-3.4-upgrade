@@ -84,3 +84,15 @@ makes no change in dependencies.
     <version>4.1.2</version>
 </dependency>
 ```
+
+This gives us following dependency tree:
+
+[INFO] +- org.springframework.boot:spring-boot-starter-data-mongodb:jar:1.5.22.RELEASE:compile
+[INFO] |  \- org.springframework.data:spring-data-mongodb:jar:1.10.23.RELEASE:compile
+[INFO] |     +- org.springframework:spring-tx:jar:4.3.25.RELEASE:compile
+[INFO] |     +- org.springframework:spring-beans:jar:4.3.25.RELEASE:compile
+[INFO] |     +- org.springframework:spring-expression:jar:4.3.25.RELEASE:compile
+[INFO] |     \- org.springframework.data:spring-data-commons:jar:1.13.23.RELEASE:compile
+[INFO] \- org.mongodb:mongodb-driver-sync:jar:4.1.2:compile
+[INFO]    +- org.mongodb:bson:jar:4.1.2:compile
+[INFO]    \- org.mongodb:mongodb-driver-core:jar:4.1.2:compile
