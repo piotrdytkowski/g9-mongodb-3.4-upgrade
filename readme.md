@@ -1,4 +1,4 @@
-1. Dependency tree from spring-boot-starter-data-mongodb
+# Dependency tree from spring-boot-starter-data-mongodb
 Run it using `mvn dependency:tree` command.
 
 [INFO] \- org.springframework.boot:spring-boot-starter-data-mongodb:jar:1.5.22.RELEASE:compile
@@ -13,22 +13,17 @@ Run it using `mvn dependency:tree` command.
 
 Shows mongodb-driver:jar:3.4.3 driver is in use.
 
-2. Run both docker images:
+# Run both docker images:
 docker run -d -p 27017:27017 -p 28017:28017 -e MONGODB_PASS="mypass" --name mongo-3.4 dubc/mongodb-3.4
 docker run -d -p 27018:27017 -p 28018:28017 -e MONGO_INITDB_ROOT_USERNAME=admin -e MONGO_INITDB_ROOT_PASSWORD="mypass" --name mongo-4.4 mongo:4.4
 
 This lets us run tests against the current version of the mongoDB and the version after platform update (4.1).
 
-With the old driver (3.4.3) tests run against MongoDB 3.4, but fail with MongoDB 4.1.12 with errors:
-```
-Exception in monitor thread while connecting to server localhost:27018
-org.springframework.dao.DataAccessResourceFailureException: Timed out after 30000 ms while waiting for a server that matches WritableServerSelector.
-Client view of cluster state is {type=UNKNOWN, servers=[{address=localhost:27018, type=UNKNOWN, state=CONNECTING,
-exception={com.mongodb.MongoSocketReadException: Exception receiving message}, caused by {java.net.SocketException: Connection reset}
-```
+With the old driver (3.4.3) tests run with MongoDB 3.4, and with MongoDB 4.1.12.
 
-3. Approach
-3.1. Spring bom
+# Approaches to update the driver and spring data (or one of them at time)
+
+## Spring bom
 ```xml
 <dependencyManagement>
     <dependencies>
@@ -42,7 +37,7 @@ exception={com.mongodb.MongoSocketReadException: Exception receiving message}, c
     </dependencies>
 </dependencyManagement>
 ```
-We can't simply update the Spring Data MongoDB to 4.x version, because of it's requirements: (or can we?)
+We can't simply update the Spring Data MongoDB to 4.x version, because of it's requirements:
 The Spring Data MongoDB 4.x binaries require JDK level 17 and above and Spring Framework 6.0.9 and above.
 https://docs.spring.io/spring-data/mongodb/docs/current/reference/html/
 
@@ -60,12 +55,12 @@ Updating the bom in dependency management works as follows:
 [INFO]       +- org.springframework:spring-expression:jar:4.3.25.RELEASE:compile
 [INFO]       \- org.springframework.data:spring-data-commons:jar:3.1.0:compile
 
-But this doesn't update the mongodb driver ...
+Somehow it works despite the requirements, but it doesn't update the mongodb driver anyway.
 
-3.2. Setting the property `<spring-data-bom.version>2023.0.0</spring-data-bom.version>`
+## Setting the property `<spring-data-bom.version>2023.0.0</spring-data-bom.version>`
 makes no change in dependencies.
 
-5. Explicit exclusion:
+## Explicit exclusion:
 
 ```xml
 <dependency>
@@ -84,3 +79,6 @@ makes no change in dependencies.
     <version>4.1.2</version>
 </dependency>
 ```
+
+Just updating the driver doesn't help, because mongo template can't be instantiated by spring.
+Updating the driver and spring data, gives more errors.
